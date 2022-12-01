@@ -1,0 +1,6 @@
+jupyter
+jupyterlab
+jupytext
+pandas
+numpy
+pre-commit
