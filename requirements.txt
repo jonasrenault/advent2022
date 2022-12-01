@@ -4,3 +4,4 @@ jupytext
 pandas
 numpy
 pre-commit
+black
