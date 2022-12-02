@@ -50,4 +50,30 @@ def score_round(p1, p2):
 #%%
 sum([score_round(a, b) for (a, b) in puzzle])
 
+# %% [markdown]
+# ### Part 2
+
+#%%
+shapes = {"A": 1, "B": 2, "C": 3}
+scores = {"X": 0, "Y": 3, "Z": 6}
+plays = {
+    ("A", "X"): "C",
+    ("A", "Y"): "A",
+    ("A", "Z"): "B",
+    ("B", "X"): "A",
+    ("B", "Y"): "B",
+    ("B", "Z"): "C",
+    ("C", "X"): "B",
+    ("C", "Y"): "C",
+    ("C", "Z"): "A",
+}
+
+
+def score_round(p1, p2):
+    return scores[p2] + shapes[plays[p1, p2]]
+
+
+#%%
+sum([score_round(a, b) for (a, b) in puzzle])
+
 # %%
