@@ -14,7 +14,7 @@ then install requirements
 
 ```bash
 mamba activate advent
-pip install -r requirements.text
+pip install -r requirements.txt
 ```
 
 ## Structure

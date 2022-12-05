@@ -20,7 +20,9 @@
 
 # %%
 # Read puzzle input
-with open("input.txt", "r") as f:
+from pathlib import Path
+
+with open(Path(__file__).resolve().parent / "input.txt", "r") as f:
     puzzle = f.readlines()
 
 
@@ -48,7 +50,7 @@ def score_round(p1, p2):
 
 
 # %%
-sum([score_round(a, b) for (a, b) in puzzle])
+print(sum([score_round(a, b) for (a, b) in puzzle]))
 
 # %% [markdown]
 # ### Part 2
@@ -74,6 +76,4 @@ def score_round(p1, p2):
 
 
 # %%
-sum([score_round(a, b) for (a, b) in puzzle])
-
-# %%
+print(sum([score_round(a, b) for (a, b) in puzzle]))

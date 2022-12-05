@@ -20,7 +20,9 @@
 
 # %%
 # Read puzzle input
-with open("input.txt", "r") as f:
+from pathlib import Path
+
+with open(Path(__file__).resolve().parent / "input.txt", "r") as f:
     puzzle = f.readlines()
 
 
@@ -41,7 +43,7 @@ def find_highest_calories(puzzle):
 
 # %%
 elves, highest = find_highest_calories(puzzle)
-highest
+print(highest)
 
 # %% [markdown]
 # ### Part two
@@ -50,6 +52,4 @@ highest
 highests = sorted(elves)
 
 # %%
-sum(highests[-3:])
-
-# %%
+print(sum(highests[-3:]))

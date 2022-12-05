@@ -20,7 +20,9 @@
 
 # %%
 # Read puzzle input
-with open("input.txt", "r") as f:
+from pathlib import Path
+
+with open(Path(__file__).resolve().parent / "input.txt", "r") as f:
     puzzle = f.readlines()
 
 # %%
@@ -38,7 +40,7 @@ def pack_to_priority(l):
 
 
 # %%
-sum(map(pack_to_priority, puzzle))
+print(sum(map(pack_to_priority, puzzle)))
 
 # %% [markdown]
 # ### Part 2

@@ -20,7 +20,9 @@
 
 # %%
 # Read puzzle input
-with open("input.txt", "r") as f:
+from pathlib import Path
+
+with open(Path(__file__).resolve().parent / "input.txt", "r") as f:
     puzzle = f.readlines()
 
 # %%
@@ -40,7 +42,7 @@ def intervals_overlap(line):
 
 
 # %%
-sum(list(map(intervals_overlap, puzzle)))
+print(sum(list(map(intervals_overlap, puzzle))))
 
 # %% [markdown]
 # ### Part 2
@@ -54,4 +56,4 @@ def intervals_touch(line):
 
 
 # %%
-sum(list(map(intervals_touch, puzzle)))
+print(sum(list(map(intervals_touch, puzzle))))

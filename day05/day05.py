@@ -20,7 +20,9 @@
 
 # %%
 # Read puzzle input
-with open("input.txt", "r") as f:
+from pathlib import Path
+
+with open(Path(__file__).resolve().parent / "input.txt", "r") as f:
     puzzle = f.readlines()
 
 # %%
@@ -61,7 +63,7 @@ def apply_ops(ops: List[str], piles: Dict[int, List[str]]) -> Dict[int, List[str
 # print top crates for each pile
 piles = apply_ops(ops, create_piles(crates))
 tops = [piles[i + 1][0] for i in range(max(piles.keys()))]
-"".join(tops)
+print("".join(tops))
 
 # %% [markdown]
 # ### Part 2
@@ -85,4 +87,4 @@ def apply_ops(
 # print top crates for each pile
 piles = apply_ops(ops, create_piles(crates), False)
 tops = [piles[i + 1][0] for i in range(max(piles.keys()))]
-"".join(tops)
+print("".join(tops))
