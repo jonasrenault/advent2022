@@ -23,6 +23,8 @@
 with open("input.txt", "r") as f:
     puzzle = f.readlines()
 
+# %%
+puzzle = [l.strip() for l in puzzle]
 
 # %%
 from collections import Counter
@@ -38,4 +40,18 @@ def pack_to_priority(l):
 # %%
 sum(map(pack_to_priority, puzzle))
 
+# %% [markdown]
+# ### Part 2
+
 # %%
+def pack_to_group_priority(l1, l2, l3):
+    item = Counter(l1).keys() & Counter(l2).keys() & Counter(l3).keys()
+    return string.ascii_letters.index(item.pop()) + 1
+
+
+# %%
+total = 0
+for i in range(0, len(puzzle) - 1, 3):
+    total += pack_to_group_priority(puzzle[i], puzzle[i + 1], puzzle[i + 2])
+
+print(total)
