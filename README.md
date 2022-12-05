@@ -23,3 +23,20 @@ Each day's problem is in its own directory. Each day's directory contains an `in
 **Warning: these are my input files, input files are different for each user so results may differ.**
 
 The code for each day's problem is in a python script file. The script files use jupytext percent format and can be run as notebooks.
+
+## Execution
+
+To run the script files as notebooks, start a jupyter lab server with :
+
+```bash
+jupyter lab
+```
+
+then right click on the script file in the explorer and select `Open with Notebook`.
+
+To run the script files as python scripts, run each script from its own directory :
+
+```bash
+cd day01
+python day01.py
+```

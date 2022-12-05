@@ -20,9 +20,7 @@
 
 # %%
 # Read puzzle input
-from pathlib import Path
-
-with open(Path(__file__).resolve().parent / "input.txt", "r") as f:
+with open("input.txt", "r") as f:
     puzzle = f.readlines()
 
 
