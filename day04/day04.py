@@ -41,3 +41,17 @@ def intervals_overlap(line):
 
 # %%
 sum(list(map(intervals_overlap, puzzle)))
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+def intervals_touch(line):
+    left, right = line.strip().split(",")
+    l1, l2 = left.split("-")
+    r1, r2 = right.split("-")
+    return int(min(int(l2), int(r2)) - max(int(l1), int(r1)) >= 0)
+
+
+# %%
+sum(list(map(intervals_touch, puzzle)))
