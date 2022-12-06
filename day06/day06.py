@@ -24,14 +24,25 @@ with open("input.txt", "r") as f:
     puzzle = f.readlines()
 
 # %%
-from collections import Counter
-
 puzzle = puzzle[0].strip()
-marker = None
-for i in range(4, len(puzzle)):
-    if len(Counter(puzzle[i - 4 : i])) == 4:
-        marker = i
-        break
-print(marker)
 
 # %%
+from collections import Counter
+
+
+def find_unique_marker(puzzle: str, unique: int):
+    pos = None
+    for i in range(unique, len(puzzle)):
+        if len(Counter(puzzle[i - unique : i])) == unique:
+            pos = i
+            break
+    return pos
+
+
+print(find_unique_marker(puzzle, 4))
+
+# %% [markdown]
+# ### Part 2
+
+#%%
+print(find_unique_marker(puzzle, 14))
