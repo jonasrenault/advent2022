@@ -114,7 +114,15 @@ def compute_size(
 
 
 sizes = {}
-compute_size(Path("/"), contents, sizes)
+used = compute_size(Path("/"), contents, sizes)
 
 # %%
 print(sum([v for v in sizes.values() if v <= 100000]))
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+total_dsp = 70000000
+needed = 30000000 - (total_dsp - used)
+print(min(filter(lambda x: x > needed, sizes.values())))
