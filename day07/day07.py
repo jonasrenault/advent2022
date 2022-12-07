@@ -83,7 +83,7 @@ def compute_size(
     dir: Path,
     contents: Dict[Path, List[Path | Tuple[str, int]]],
     sizes: Dict[Path, int],
-) -> Dict[Path, int]:
+) -> int:
     """
     Given a directory path, compute it's size based on the contents tree.
 
@@ -98,8 +98,8 @@ def compute_size(
 
     Returns
     -------
-    Dict[Path, int]
-        a dict of sizes
+    int
+        the size for the given directory
     """
     if dir in sizes:
         return sizes[dir]
