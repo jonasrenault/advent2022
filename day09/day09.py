@@ -59,3 +59,45 @@ for s in puzzle:
 
 # %%
 print(len(positions))
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+from typing import List
+import numpy as np
+
+
+def step_knots(
+    knots: List[np.ndarray],
+    s: Tuple[str, str],
+    positions: MutableSet[Tuple[int, int]],
+):
+    d, u = s
+    for _ in range(int(u)):
+        # move head in dir
+        knots[0] = knots[0] + np.array(dirs[d])
+        moved = True
+        i = 1
+        while moved and i < 10:
+            # for each knot, move it in direction of knot before it
+            # if it is not touching it
+            diff = knots[i - 1] - knots[i]
+            if diff.max() > 1 or diff.min() < -1:
+                knots[i] = knots[i] + diff.clip(-1, 1)
+                i += 1
+            else:
+                moved = False
+            if i == 10:
+                positions.add(tuple(knots[i - 1]))
+
+
+# %%
+knots = [np.array((0, 0)) for _ in range(10)]
+positions = set()
+positions.add((0, 0))
+for s in puzzle:
+    step_knots(knots, s, positions)
+
+# %%
+print(len(positions))
