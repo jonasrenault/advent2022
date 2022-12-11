@@ -78,3 +78,33 @@ for i in range(20):
 import math
 
 print(math.prod([x[1] for x in cnt.most_common(2)]))
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+def play_round2(monkeys, cnt):
+    supermod = math.prod([m["mod"] for m in monkeys.values()])
+    for i in range(len(monkeys)):
+        monkey = monkeys[i]
+        for item in monkey["items"]:
+            old = item
+            new = eval(monkey["op"])
+            if new > supermod:
+                new = new % supermod
+            if new % monkey["mod"] == 0:
+                monkeys[monkey["send_to"][0]]["items"].append(new)
+            else:
+                monkeys[monkey["send_to"][1]]["items"].append(new)
+            cnt[i] += 1
+        monkey["items"] = []
+
+
+# %%
+cnt = Counter()
+monkeys = parse_puzzle(puzzle)
+for i in range(10000):
+    play_round2(monkeys, cnt)
+
+# %%
+print(math.prod([x[1] for x in cnt.most_common(2)]))
