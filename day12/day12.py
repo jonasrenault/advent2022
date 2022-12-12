@@ -29,6 +29,10 @@ import numpy as np
 
 puzzle = [[ord(c) for c in l.strip()] for l in puzzle]
 puzzle = np.array(puzzle)
+start = tuple(np.argwhere(puzzle == ord("S"))[0])
+end = tuple(np.argwhere(puzzle == ord("E"))[0])
+puzzle[start] = ord("a")
+puzzle[end] = ord("z")
 
 # %%
 from typing import Tuple, List, Callable
@@ -100,39 +104,32 @@ def dijkstra(
     """
     visited = np.zeros(puzzle.shape, dtype=bool)
     costs = np.full(puzzle.shape, puzzle.size)
-    costs[tuple(start)] = 0
+    costs[start] = 0
 
     while not visited.all():
         pos = tuple(
             min(np.argwhere(visited == False).tolist(), key=lambda x: costs[tuple(x)])
         )
         visited[pos] = True
-        n = get_neighbors(pos, puzzle, visited, height_cond)
-        for x in n:
-            if costs[pos] + 1 < costs[x]:
-                costs[x] = costs[pos] + 1
+        neighbors = get_neighbors(pos, puzzle, visited, height_cond)
+        for neighbor in neighbors:
+            if costs[pos] + 1 < costs[neighbor]:
+                costs[neighbor] = costs[pos] + 1
 
     return costs
 
 
 # %%
-start = np.argwhere(puzzle == ord("S"))[0]
-end = np.argwhere(puzzle == ord("E"))[0]
-puzzle[tuple(start)] = ord("a")
-puzzle[tuple(end)] = ord("z")
-
-# %%
-# only move downhill, or uphill of at most one
-condition = lambda height1, height2: height2 < height1 or height2 <= height1 + 1
-costs = dijkstra(puzzle, tuple(start), condition)
-print(costs[tuple(end)])
+# only move to neighbors with height lower than current height + 1
+condition = lambda height1, height2: height2 <= height1 + 1
+costs = dijkstra(puzzle, start, condition)
+print(costs[end])
 
 # %% [markdown]
 # ### Part 2
 
 # %%
 # inverse the condition and start from the end
-inv_condition = lambda height1, height2: height1 < height2 or height1 <= height2 + 1
-costs = dijkstra(puzzle, tuple(end), inv_condition)
-min_start_pos = min(np.argwhere(puzzle == ord("a")), key=lambda x: costs[tuple(x)])
-print(costs[tuple(min_start_pos)])
+inv_condition = lambda height1, height2: height1 <= height2 + 1
+costs = dijkstra(puzzle, end, inv_condition)
+print(costs[puzzle == ord("a")].min())
