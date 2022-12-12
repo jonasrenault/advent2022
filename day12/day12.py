@@ -31,13 +31,16 @@ puzzle = [[ord(c) for c in l.strip()] for l in puzzle]
 puzzle = np.array(puzzle)
 
 # %%
-from typing import Tuple, List
+from typing import Tuple, List, Callable
 
 dirs = {(1, 0), (0, 1), (-1, 0), (0, -1)}
 
 
 def get_neighbors(
-    pos: Tuple[int, int], puzzle: np.ndarray, visited: np.ndarray
+    pos: Tuple[int, int],
+    puzzle: np.ndarray,
+    visited: np.ndarray,
+    height_cond: Callable[[int, int], bool],
 ) -> List[Tuple[int, int]]:
     """
     Get the possible neighbors for pos, given the heights matrix and the matrix
@@ -51,6 +54,8 @@ def get_neighbors(
         the heights matrix
     visited : np.ndarray
         the matrix of already visited positions
+    height_cond : Callable[[int, int], bool]
+        callback condition to decide if moving to neighbor is possible
 
     Returns
     -------
@@ -64,7 +69,7 @@ def get_neighbors(
             0 <= neighbor[0] < puzzle.shape[0]
             and 0 <= neighbor[1] < puzzle.shape[1]
             and not visited[neighbor]
-            and (puzzle[neighbor] < puzzle[pos] or puzzle[neighbor] <= puzzle[pos] + 1)
+            and height_cond(puzzle[pos], puzzle[neighbor])
         ):
             neighbors.append(neighbor)
 
@@ -72,7 +77,9 @@ def get_neighbors(
 
 
 # %%
-def dijkstra(puzzle: np.ndarray, start: Tuple[int, int]) -> np.ndarray:
+def dijkstra(
+    puzzle: np.ndarray, start: Tuple[int, int], height_cond: Callable[[int, int], bool]
+) -> np.ndarray:
     """
     Compute the minimum cost to reach each position in the puzzle from the
     start node.
@@ -83,6 +90,8 @@ def dijkstra(puzzle: np.ndarray, start: Tuple[int, int]) -> np.ndarray:
         the heights of each position
     start : Tuple[int, int]
         the starting indices
+    height_cond : Callable[[int, int], bool]
+        callback condition to decide if moving to neighbor is possible
 
     Returns
     -------
@@ -98,7 +107,7 @@ def dijkstra(puzzle: np.ndarray, start: Tuple[int, int]) -> np.ndarray:
             min(np.argwhere(visited == False).tolist(), key=lambda x: costs[tuple(x)])
         )
         visited[pos] = True
-        n = get_neighbors(pos, puzzle, visited)
+        n = get_neighbors(pos, puzzle, visited, height_cond)
         for x in n:
             if costs[pos] + 1 < costs[x]:
                 costs[x] = costs[pos] + 1
@@ -109,9 +118,21 @@ def dijkstra(puzzle: np.ndarray, start: Tuple[int, int]) -> np.ndarray:
 # %%
 start = np.argwhere(puzzle == ord("S"))[0]
 end = np.argwhere(puzzle == ord("E"))[0]
-input = puzzle.copy()
-input[tuple(start)] = ord("a")
-input[tuple(end)] = ord("z")
+puzzle[tuple(start)] = ord("a")
+puzzle[tuple(end)] = ord("z")
 
-costs = dijkstra(input, tuple(start))
+# %%
+# only move downhill, or uphill of at most one
+condition = lambda height1, height2: height2 < height1 or height2 <= height1 + 1
+costs = dijkstra(puzzle, tuple(start), condition)
 print(costs[tuple(end)])
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+# inverse the condition and start from the end
+inv_condition = lambda height1, height2: height1 < height2 or height1 <= height2 + 1
+costs = dijkstra(puzzle, tuple(end), inv_condition)
+min_start_pos = min(np.argwhere(puzzle == ord("a")), key=lambda x: costs[tuple(x)])
+print(costs[tuple(min_start_pos)])
