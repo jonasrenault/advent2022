@@ -13,7 +13,7 @@
 # ---
 
 # %% [markdown]
-# # Day 12
+# # Day 13
 
 # %% [markdown]
 # ### Part 1
@@ -55,3 +55,29 @@ for i in range(0, len(puzzle), 3):
         valid.append(1 + i // 3)
 
 print(sum(valid))
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+packets = [eval(l.strip()) for l in puzzle if l.strip() != ""]
+
+# %%
+def bubble_sort(packets):
+    sorted = True
+    while sorted:
+        sorted = False
+        for i in range(len(packets) - 1):
+            l = packets[i]
+            r = packets[i + 1]
+            if not validate_pairs(l, r):
+                packets[i + 1] = l
+                packets[i] = r
+                sorted = True
+
+    return packets
+
+
+# %%
+sorted = bubble_sort(packets + [[[2]], [[6]]])
+print((sorted.index([[6]]) + 1) * (sorted.index([[2]]) + 1))
