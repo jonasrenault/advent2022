@@ -91,3 +91,23 @@ def fill_cave(cave, bottom):
 
 # %%
 fill_cave(cave, bottom)
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+def fill_cave_floored(cave, bottom):
+    c = cave.copy()
+    c[bottom + 2, :] = 1
+    res = drop_sand_unit(c, bottom)
+    cnt = 0
+    while res is not None and res != (500, 0):
+        x, y = res
+        c[y, x] = 2
+        cnt += 1
+        res = drop_sand_unit(c, bottom)
+    return cnt + 1
+
+
+# %%
+fill_cave_floored(cave, bottom)
