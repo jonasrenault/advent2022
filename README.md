@@ -4,10 +4,10 @@ Repository of my code for [Advent of Code 2022](https://adventofcode.com/2022)
 
 ## Install
 
-Create an environnment with python >= 3.10, for example using using mamba
+Create an environnment with python >= 3.10, for example using using [mamba](https://mamba.readthedocs.io/en/latest/)
 
 ```bash
-mamba env create -n advent python=3.10
+mamba create -n advent python=3.10
 mamba activate advent
 ```
 
