@@ -175,6 +175,13 @@ def adjacent(intervals: List[Tuple[int, int]]) -> bool:
     """
     Given a list of intervals, check if the intervals are adjacent.
 
+    Example
+    -------
+    adjacent([(-2, 3), (4, 15)])
+        True
+    adjacent([(-2, 3), (5, 16)])
+        False
+
     Parameters
     ----------
     intervals : List[Tuple[int, int]]
