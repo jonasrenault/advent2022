@@ -5,3 +5,4 @@ pandas
 numpy
 pre-commit
 black
+tqdm
