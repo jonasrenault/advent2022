@@ -90,7 +90,7 @@ def fill_cave(cave, bottom):
 
 
 # %%
-fill_cave(cave, bottom)
+print(fill_cave(cave, bottom))
 
 # %% [markdown]
 # ### Part 2
@@ -110,4 +110,4 @@ def fill_cave_floored(cave, bottom):
 
 
 # %%
-fill_cave_floored(cave, bottom)
+print(fill_cave_floored(cave, bottom))
