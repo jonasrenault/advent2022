@@ -201,10 +201,24 @@ def adjacent(intervals: List[Tuple[int, int]]) -> bool:
 from tqdm import tqdm
 
 
-def find_distress_signal(sensors, limit):
+def find_distress_signal(
+    sensors: Dict[Tuple[int, int], Tuple[int, int]], limit: int
+) -> int:
     """
-    Find the first row within limit where coverage by signal is not
-    a list of adjacent intervals.
+    Find the first row within limit where the coverage is not a list
+    of adjacent intervals. Compute the tuning frequency for this position.
+
+    Parameters
+    ----------
+    sensors : Dict[Tuple[int, int], Tuple[int, int]]
+        The dict of sensors -> beacon
+    limit : int
+        the limit within which to search
+
+    Returns
+    -------
+    int
+        The tuning frequency equal to 4000000 * x + y
     """
     for y in tqdm(range(limit)):
         cover = coverage(sensors, y)
