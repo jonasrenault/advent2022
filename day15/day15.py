@@ -167,4 +167,51 @@ def blocked_units(sensors, y):
 # %%
 print(blocked_units(sensors, 2000000))
 
+# %% [markdown]
+# ### Part 2
+
 # %%
+def adjacent(intervals: List[Tuple[int, int]]) -> bool:
+    """
+    Given a list of intervals, check if the intervals are adjacent.
+
+    Parameters
+    ----------
+    intervals : List[Tuple[int, int]]
+        A list of intervals
+
+    Returns
+    -------
+    bool
+        True if the intervals are adjacent
+    """
+    adjacent = True
+    for i in range(len(intervals) - 1):
+        adjacent &= (
+            min(
+                abs(intervals[i][1] - intervals[i + 1][0]),
+                abs(intervals[i][0] - intervals[i + 1][1]),
+            )
+            == 1
+        )
+    return adjacent
+
+
+# %%
+from tqdm import tqdm
+
+
+def find_distress_signal(sensors, limit):
+    """
+    Find the first row within limit where coverage by signal is not
+    a list of adjacent intervals.
+    """
+    for y in tqdm(range(limit)):
+        cover = coverage(sensors, y)
+        if not adjacent(cover):
+            print((min(cover[0][1], cover[1][1]) + 1) * 4000000 + y)
+            break
+
+
+# %%
+find_distress_signal(sensors, 4000000)
