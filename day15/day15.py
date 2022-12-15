@@ -59,30 +59,36 @@ def taxicab_ball(center, radius):
     return rows
 
 
-# %%
-manhattan((8, 7), (2, 11))
-taxicab_ball((-8, -7), 9)
+def taxicab_ball_at_row(center, radius, y):
+    (xc, yc) = center
+    step = abs(y - yc)
+    if step <= radius:
+        row = (xc - radius + step, xc + radius - step)
+        return row
+    return None
+
+
 # %%
 def coverage(sensors, y):
     minx = None
     maxx = None
     for sensor, beacon in sensors.items():
         d = manhattan(sensor, beacon)
-        ball = taxicab_ball(sensor, d)
-        if sensor[1] - d <= y <= sensor[1] + d:
-            for row in filter(lambda x: x[0][1] == y, ball):
-                if minx is None or row[0][0] < minx:
-                    minx = row[0][0]
-                if maxx is None or row[1][0] > maxx:
-                    maxx = row[1][0]
-    return minx, maxx
+        sensor_cover_at_row = taxicab_ball_at_row(sensor, d, y)
+        if sensor_cover_at_row is not None:
+            x0, x1 = sensor_cover_at_row
+            if minx is None or x0 < minx:
+                minx = x0
+            if maxx is None or x1 > maxx:
+                maxx = x1
+
+    return (
+        manhattan((minx, y), (maxx, y))
+        + 1
+        - len(list(filter(lambda x: x[1] == y, set(sensors.values()))))
+    )
 
 
 # %%
 y = 2000000
-minx, maxx = coverage(sensors, y)
-print(
-    manhattan((minx, y), (maxx, y))
-    + 1
-    - len(list(filter(lambda x: x[1] == y, set(sensors.values()))))
-)
+coverage(sensors, y)
