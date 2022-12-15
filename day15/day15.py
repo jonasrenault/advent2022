@@ -43,52 +43,128 @@ def parse_input(puzzle):
 sensors = parse_input(puzzle)
 
 # %%
-def manhattan(x, y):
-    return abs(x[0] - y[0]) + abs(x[1] - y[1])
+from typing import Tuple
+
+
+def manhattan(a: Tuple[int, int], b: Tuple[int, int]) -> int:
+    """
+    Compute the manhattan or taxicab distance between points x and y.
+
+    Parameters
+    ----------
+    x : Tuple[int, int]
+        x and y coordinates for point a
+    y : Tuple[int, int]
+        x and y coordinates for point b
+
+    Returns
+    -------
+    int
+        the manhattan distance.
+    """
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 
 # %%
-def taxicab_ball(center, radius):
-    x = center[0]
-    y = center[1]
-    rows = []
-    for r in range(radius + 1):
-        rows.append([(x - radius + r, y - r), (x + radius - r, y - r)])
-        if r > 0:
-            rows.append([(x - radius + r, y + r), (x + radius - r, y + r)])
-    return rows
+from typing import List, Dict
 
 
-def taxicab_ball_at_row(center, radius, y):
-    (xc, yc) = center
-    step = abs(y - yc)
-    if step <= radius:
-        row = (xc - radius + step, xc + radius - step)
-        return row
-    return None
+def overlap(i1: Tuple[int, int], i2: Tuple[int, int]) -> bool:
+    """
+    Check if two intervals overlap.
 
+    Example
+    -------
+    overlap((-3, 3), (5, 10))
+        False
+    overlap((-3, 3), (-1, 1))
+        True
 
-# %%
-def coverage(sensors, y):
-    minx = None
-    maxx = None
-    for sensor, beacon in sensors.items():
-        d = manhattan(sensor, beacon)
-        sensor_cover_at_row = taxicab_ball_at_row(sensor, d, y)
-        if sensor_cover_at_row is not None:
-            x0, x1 = sensor_cover_at_row
-            if minx is None or x0 < minx:
-                minx = x0
-            if maxx is None or x1 > maxx:
-                maxx = x1
+    Parameters
+    ----------
+    i1 : Tuple[int, int]
+        A closed interval
+    i2 : Tuple[int, int]
+        A closed interval
 
+    Returns
+    -------
+    bool
+        returns True if the intervals overlap.
+    """
     return (
-        manhattan((minx, y), (maxx, y))
-        + 1
-        - len(list(filter(lambda x: x[1] == y, set(sensors.values()))))
+        i2[0] <= i1[0] <= i2[1]
+        or i2[0] <= i1[1] <= i2[1]
+        or i1[0] <= i2[0] <= i1[1]
+        or i1[0] <= i2[1] <= i1[1]
     )
 
 
+def merge_intervals(
+    intervals: List[Tuple[int, int]], interval: Tuple[int, int]
+) -> List[Tuple[int, int]]:
+    """
+    Merge an interval intor a list of other intervals, reducing the list
+    with overlapping intervals.
+
+    Parameters
+    ----------
+    intervals : List[Tuple[int, int]]
+        A list of intervals
+    interval : Tuple[int, int]
+        An interval
+
+    Returns
+    -------
+    List[Tuple[int, int]]
+        A list of intervals with no intervals overlapping
+    """
+    xmin, xmax = interval
+    merged = []
+    for i in intervals:
+        if not overlap(i, interval):
+            merged.append(i)
+        else:
+            xmin = min(i[0], xmin)
+            xmax = max(i[1], xmax)
+    return merged + [(xmin, xmax)]
+
+
+def coverage(
+    sensors: Dict[Tuple[int, int], Tuple[int, int]], y: int
+) -> List[Tuple[int, int]]:
+    """
+    Compute the coverage for row = y, given a dict of sensors -> beacons.
+
+    Parameters
+    ----------
+    sensors : Dict[Tuple[int, int], Tuple[int, int]]
+        The dict of sensors -> beacon coordinates
+    y : int
+        the row coordinate
+
+    Returns
+    -------
+    List[Tuple[int, int]]
+        The list of intervals covered by the sensors at given row
+    """
+    cover = []
+    for s, b in sensors.items():
+        d = manhattan(s, b)
+        step = abs(y - s[1])
+        if step <= d:
+            x0, x1 = (s[0] - d + step, s[0] + d - step)
+            cover = merge_intervals(cover, (x0, x1))
+    return cover
+
+
 # %%
-y = 2000000
-coverage(sensors, y)
+def blocked_units(sensors, y):
+    cover = coverage(sensors, y)
+    return sum([manhattan((x0, y), (x1, y)) for x0, x1 in cover])
+
+
+# %%
+print(blocked_units(sensors, 2000000))
+
+# %%
