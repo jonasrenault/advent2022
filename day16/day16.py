@@ -87,6 +87,29 @@ def dfs(node, to_open, time_left):
 
 # %%
 to_open = tuple([k for k, v in flows.items() if v > 0])
-dfs("AA", to_open, 30)
+print(dfs("AA", to_open, 30))
+
+# %% [markdown]
+# ### Part 2
+
+# %% [markdown]
+"""
+This is the solution from [betaveros](https://github.com/betaveros/advent-of-code-2022/blob/main/p16.noul).
+What it does is run dfs for one man during 26secs, then run again dfs for 26secs on remaining open valves.
+It does not work on sample data, because it only works if time runs out before one man could
+open all valves.
+"""
 
 # %%
+def dfs2(node, to_open, time_left):
+    values = [
+        flows[r] * (time_left - distances[names.index(node), names.index(r)] - 1)
+        + dfs2(r, rr, time_left - distances[names.index(node), names.index(r)] - 1)
+        for r, rr in choose_one(to_open)
+        if distances[names.index(node), names.index(r)] < time_left
+    ]
+    return max(values) if values else dfs("AA", to_open, 26)
+
+
+# %%
+print(dfs2("AA", to_open, 26))
