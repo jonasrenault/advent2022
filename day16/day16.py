@@ -53,7 +53,6 @@ def compute_distances(tunnels):
     for n, ts in tunnels.items():
         for t in ts:
             d[names.index(n), names.index(t)] = 1
-            d[names.index(t), names.index(n)] = 1
 
     for k in range(len(names)):
         for i in range(len(names)):
