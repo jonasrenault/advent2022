@@ -138,6 +138,8 @@ def drop_stone(stone: np.ndarray, cave: np.ndarray, ijets: Iterator[str]):
         if rest:
             cave[tuple((bl + stone).T)] = 1
 
+    return jet
+
 
 # %%
 def simulate(cnt):
@@ -150,6 +152,89 @@ def simulate(cnt):
 
 
 # %%
+def height_of_cave(cave: np.ndarray) -> int:
+    if len(np.argwhere(cave == 1)) == 0:
+        return 0
+    return cave.shape[0] - np.argwhere(cave == 1)[:, 0].min()
+
+
+# %%
 cave = simulate(2022)
-height = cave.shape[0] - np.argwhere(cave == 1)[:, 0].min()
-print(height)
+print(height_of_cave(cave))
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+def get_mask(cave: np.ndarray, mask_size: int) -> Tuple[Tuple[int]]:
+    """
+    Given a cave and a mask_size, return the mask_size topmost rows in the cave.
+
+    Parameters
+    ----------
+    cave : np.ndarray
+        The cave
+    mask_size : int
+        The mask_size
+
+    Returns
+    -------
+    Tuple[Tuple[int]]
+        A tuple of tuple containing the mask_size highest rows in the cave
+    """
+    top = np.argwhere(cave == 1)[:, 0].min()
+    height = cave.shape[0] - top
+    mask = None
+    if height > mask_size:
+        mask = tuple(tuple(x) for x in cave[top : top + mask_size, :])
+    return height, mask
+
+
+def simulate_with_pattern(n_rocks: int, mask_size: int = 30) -> int:
+    """
+    Simulate droping `n_rocks` rocks. This method keeps a history of
+    what the topmost rows in the cave looked like after droping each rock,
+    to look for repeatable patterns.
+
+    Parameters
+    ----------
+    n_rocks : int
+        the number of rocks to drop
+    mask_size : int
+        the mask_size to use
+
+    Returns
+    -------
+    int
+        the height of the cave after droping all the rocks
+    """
+    history = {}
+    t = 0
+    cave = np.zeros((10000, 7))
+    gjets = ijets(jets)
+    pattern_height = 0
+
+    while t < n_rocks:
+        stone = stones[t % 5]
+        jet = drop_stone(stone, cave, gjets)
+        height, mask = get_mask(cave, mask_size)
+        if mask is not None:
+            key = (t % 5, jet, mask)
+            if key in history:
+                # we found a pattern. Multiply height and time of
+                # pattern as many times as needed to reach goal.
+                last_time, last_height = history[key]
+                tdiff = t - last_time
+                n_repeats = (n_rocks - t) // tdiff
+                pattern_height += (height - last_height) * n_repeats
+                t += tdiff * n_repeats
+                history = {}
+            else:
+                history[key] = (t, height)
+        t += 1
+
+    return height + pattern_height
+
+
+# %%
+print(simulate_with_pattern(1000000000000))
