@@ -41,4 +41,43 @@ def surface_area(cubes):
 
 
 # %%
-surface_area(coords)
+print(surface_area(coords))
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+def min_max(cubes):
+    mm = tuple(
+        (min([c[i] for c in cubes]) - 1, max([c[i] for c in cubes]) + 1)
+        for i in range(3)
+    )
+    return mm
+
+
+#%%
+from collections import deque
+
+
+def flood_3d(cubes, minmax, origin=(0, 0, 0)):
+    visited = set()
+    queue = deque([origin])
+    surface = 0
+    while queue:
+        node = queue.popleft()
+        visited.add(node)
+        for dir in dirs:
+            neighbor = tuple(node[i] + dir[i] for i in range(3))
+            if all([minmax[i][0] <= neighbor[i] <= minmax[i][1] for i in range(3)]):
+                if neighbor not in visited and neighbor not in queue:
+                    if neighbor in cubes:
+                        surface += 1
+                    else:
+                        queue.append(neighbor)
+
+    return surface
+
+
+# %%
+mm = min_max(coords)
+print(flood_3d(coords, mm))
