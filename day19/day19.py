@@ -145,3 +145,17 @@ def eval_bp(blueprints):
 
 # %%
 print(eval_bp(blueprints))
+
+# %% [markdown]
+# ### Part 2
+def eval_bp_2(blueprints):
+    total = 1
+    for i in range(3):
+        bp = blueprints[i]
+        score = score_blueprint(bp, t=32)
+        total *= score
+    return total
+
+
+# %%
+print(eval_bp_2(blueprints))
