@@ -43,3 +43,28 @@ def mix(puzzle):
 
 # %%
 print(mix(puzzle))
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+def mix2(puzzle):
+    nums = [811589153 * int(c.strip()) for c in puzzle]
+    size = len(nums)
+    orders = list(range(size))
+
+    for i in range(10):
+        for i in range(size):
+            pos = orders.index(i)
+            element = nums[pos]
+            new_pos = (pos + element) % (size - 1)
+
+            nums.insert(new_pos, nums.pop(pos))
+            orders.insert(new_pos, orders.pop(pos))
+
+    zero_i = nums.index(0)
+    return sum([nums[(i + zero_i) % size] for i in range(1000, 4000, 1000)])
+
+
+# %%
+print(mix2(puzzle))
