@@ -34,7 +34,14 @@ ops = {
     "/": operator.truediv,
 }
 
+inv_ops = {
+    operator.sub: operator.add,
+    operator.add: operator.sub,
+    operator.truediv: operator.mul,
+    operator.mul: operator.truediv,
+}
 
+# %%
 def parse_monkeys(puzzle):
     monkeys = {}
     for l in puzzle:
@@ -50,19 +57,46 @@ def parse_monkeys(puzzle):
 # %%
 monkeys = parse_monkeys(puzzle)
 # %%
-def eval_monkeys(monkeys):
-    while isinstance(monkeys["root"], tuple):
-        for monkey, op in monkeys.items():
-            if (
-                isinstance(op, tuple)
-                and not isinstance(monkeys[op[0]], tuple)
-                and not isinstance(monkeys[op[2]], tuple)
-            ):
-                monkeys[monkey] = op[1](monkeys[op[0]], monkeys[op[2]])
+def solve_for_monkey(monkeys, monkey):
+    value = monkeys[monkey]
+    if isinstance(value, int):
+        return value
+    left, op, right = value
+    return op(solve_for_monkey(monkeys, left), solve_for_monkey(monkeys, right))
+
+
+print(int(solve_for_monkey(monkeys, "root")))
+# %% [markdown]
+# ### Part 2
+
+# %%
+def solve_for_human(monkeys):
+    monkeys["humn"] = "x"
+    left, op, right = monkeys["root"]
+    try:
+        value = solve_for_monkey(monkeys, right)
+    except ValueError:
+        tosolve = right
+        value = solve_for_monkey(monkeys, left)
+    else:
+        tosolve = left
+    return solve_for_x(monkeys, tosolve, value)
+
+
+def solve_for_x(monkeys, monkey, value):
+    if monkey == "humn":
+        return value
+    left, op, right = monkeys[monkey]
+    try:
+        rval = solve_for_monkey(monkeys, right)
+    except ValueError:
+        if op == operator.sub:
+            value = -value
+        lval = solve_for_monkey(monkeys, left)
+        return solve_for_x(monkeys, right, inv_ops[op](value, lval))
+    else:
+        return solve_for_x(monkeys, left, inv_ops[op](value, rval))
 
 
 # %%
-eval_monkeys(monkeys)
-# %%
-print(int(monkeys["root"]))
-# %%
+print(int(solve_for_human(monkeys)))
