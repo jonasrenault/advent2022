@@ -35,9 +35,9 @@ arrow==1.2.3 ; python_version >= "3.10" and python_version < "4.0" \
 asttokens==2.2.1 ; python_version >= "3.10" and python_version < "4.0" \
     --hash=sha256:4622110b2a6f30b77e1473affaa97e711bc2f07d3f10848420ff1898edbe94f3 \
     --hash=sha256:6b0ac9e93fb0335014d382b8fa9b3afa7df546984258005da0b9e7095b3deb1c
-attrs==22.1.0 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6 \
-    --hash=sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c
+attrs==22.2.0 ; python_version >= "3.10" and python_version < "4.0" \
+    --hash=sha256:29e95c7f6778868dbd49170f98f8818f78f3dc5e0e37c0b1f474e3561b240836 \
+    --hash=sha256:c9227bfc2f01993c03f68db37d1d15c9690188323c067c641f1a35ca58185f99
 babel==2.11.0 ; python_version >= "3.10" and python_version < "4.0" \
     --hash=sha256:1ad3eca1c885218f6dce2ab67291178944f810a10a9b5f3cb8382a5a232b64fe \
     --hash=sha256:5ef4b3226b0180dedded4229651c8b0e1a3a6a2837d45a073272f313e4cf97f6
@@ -243,9 +243,9 @@ jupyter-events==0.5.0 ; python_version >= "3.10" and python_version < "4.0" \
 jupyter-server-terminals==0.4.3 ; python_version >= "3.10" and python_version < "4.0" \
     --hash=sha256:8421438d95a1f1f6994c48dd5dc10ad167ea7c196972bb5d1d7a9da1e30fde02 \
     --hash=sha256:ec67d3f1895d25cfb586a87a50b8eee13b709898a4afd721058e551e0a0f480d
-jupyter-server==2.0.2 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:4ec667d3546ade3c72825a6b987baef682da2826e775b14d23e69a94dd0cbd1b \
-    --hash=sha256:9de034fd229ab2c78815615deab45cb80897f35e10feabfb45b10628909affa8
+jupyter-server==2.0.4 ; python_version >= "3.10" and python_version < "4.0" \
+    --hash=sha256:069f4fda05e81a73909997c787fa078f3f64ce4203c38cdc63a23b34297ac96a \
+    --hash=sha256:fdc7d9d1e0e27a9418db87da752534205dfe92bdaf6127cee7be8741a7f22c5e
 jupyter==1.0.0 ; python_version >= "3.10" and python_version < "4.0" \
     --hash=sha256:3e1f86076bbb7c8c207829390305a2b1fe836d471ed54be66a3b8c41e7f46cc7 \
     --hash=sha256:5b290f93b98ffbc21c0c7e749f054b3267782166d72fa5e3ed1ed4eaf34a2b78 \
