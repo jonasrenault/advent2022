@@ -54,8 +54,6 @@ def has_neighbor(positions, coords):
 
 
 # %%
-
-
 def move(positions, neighbors):
     elves = np.where(positions == 1)
     propositions = defaultdict(list)
@@ -66,12 +64,15 @@ def move(positions, neighbors):
                     propositions[(x + option[0][0], y + option[0][1])].append((x, y))
                     break
 
+    moved = False
     for to, fr in propositions.items():
         if len(fr) == 1:
             positions[to] = 1
             positions[fr[0]] = 0
+            moved = True
 
     neighbors.append(neighbors.popleft())
+    return moved
 
 
 # %%
@@ -96,3 +97,29 @@ def find_empty_tiles(positions, moves):
 # %%
 p, c = find_empty_tiles(positions, 10)
 print(c)
+
+# %% [markdown]
+# ### Part 2
+
+# %%
+def count_rounds(positions):
+    pos = positions.copy()
+    neighbors = deque(
+        [
+            [(-1, 0), (-1, -1), (-1, 1)],  # north
+            [(1, 0), (1, -1), (1, 1)],  # south
+            [(0, -1), (-1, -1), (1, -1)],  # west
+            [(0, 1), (-1, 1), (1, 1)],  # east
+        ]
+    )
+    count = 0
+    moved = True
+    while moved:
+        moved = move(pos, neighbors)
+        count += 1
+
+    return count
+
+
+# %%
+print(count_rounds(positions))
