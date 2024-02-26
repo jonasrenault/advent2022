@@ -5,7 +5,7 @@ from jinja2 import Environment, FileSystemLoader
 
 
 def generate_day(day: int, output_dir: Path):
-    env = Environment(loader=FileSystemLoader("templates"))
+    env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
     template = env.get_template("day.py")
 
     fn = output_dir / f"day_{day:02d}.py"

@@ -27,13 +27,13 @@ class Advent:
     session = ""
     S = requests.Session()
 
-    def __init__(self, day: int, year: int = 2020) -> None:
+    def __init__(self, day: int, year: int = 2022) -> None:
         """
         Save year and day and setup requests session with secret cookie.
 
         Args:
             day (int): the day
-            year (int, optional): the year. Defaults to 2020.
+            year (int, optional): the year. Defaults to 2022.
 
         Raises:
             ValueError: if day and/or year is invalid
@@ -46,7 +46,7 @@ class Advent:
         self.year = year
         self.day = day
         self.S.headers["User-Agent"] = (
-            "github.com/jonasrenault/advent2023 by jonasrenault@gmail.com"
+            "github.com/jonasrenault/advent2022 by jonasrenault@gmail.com"
         )
 
         if SESSION_FILE.is_file():

@@ -21,3 +21,13 @@ Each day's problem is solved in its own python module in the [advent2022](./adve
 ```console
 poetry run python advent2022/day01.py
 ```
+
+## Template generation
+
+To generate a blank template for a new day, a template generator can be used with
+
+```console
+poetry run python advent2022/utils/templates.py -d 1
+```
+
+where the `-d` option specifies the day to generate a template for.
