@@ -1,4 +1,4 @@
-from utils.utils import Advent
+from advent2022.utils.utils import Advent
 
 advent = Advent({{day}})
 
