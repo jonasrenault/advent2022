@@ -8,7 +8,7 @@ homepage = "https://github.com/jonasrenault/advent2022#readme"
 repository = "https://github.com/jonasrenault/advent2022"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 numpy = "^1.26.4"
 requests = "^2.31.0"
 tqdm = "^4.66.2"

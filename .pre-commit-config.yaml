@@ -1,7 +1,7 @@
 exclude: "templates"
 
 default_language_version:
-  python: python3.11
+  python: python3.12
 
 repos:
   # general checks (see here: https://pre-commit.com/hooks.html)
