@@ -160,5 +160,7 @@ cython_debug/
 #.idea/
 .vscode
 
+.ruff_cache
+
 .secret-session-cookie
 inputs
