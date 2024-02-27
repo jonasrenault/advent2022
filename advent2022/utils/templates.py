@@ -8,7 +8,7 @@ def generate_day(day: int, output_dir: Path):
     env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
     template = env.get_template("day.py")
 
-    fn = output_dir / f"day_{day:02d}.py"
+    fn = output_dir / f"day{day:02d}.py"
     if not fn.exists():
         with open(fn, "w") as f:
             f.write(template.render(day=day))
