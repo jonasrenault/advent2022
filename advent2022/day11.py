@@ -1,7 +1,7 @@
 import operator
 from collections import Counter
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from math import prod
 
 from tqdm import tqdm
@@ -30,7 +30,7 @@ def main():
 @dataclass
 class Monkey:
     id: int = -1
-    items: list[int] = []
+    items: list[int] = field(default_factory=list)
     op: Callable[[int, int], int] = operator.add
     factor: int = -1
     mod: int = -1
