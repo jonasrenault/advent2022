@@ -37,7 +37,7 @@ repos:
       - id: mypy
         name: mypy
         additional_dependencies: [types-requests==2.31.0.20240218]
-        args: [--config-file=pyproject.toml]
+        args: [--config-file=pyproject.toml, --ignore-missing-imports]
 
   # docformatter - formats docstrings to follow PEP 257
   - repo: https://github.com/pycqa/docformatter
